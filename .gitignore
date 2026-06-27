@@ -1,0 +1,15 @@
+# Virtual environment — rebuilt from requirements.txt, never committed
+my_venv/
+
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+
+# Editor / OS noise
+.vscode/
+.DS_Store
+*.code-workspace
+
+# subject
+*.pdf
