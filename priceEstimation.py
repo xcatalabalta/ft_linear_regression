@@ -41,9 +41,11 @@ def main():
         sys.exit(1)
 
     price = estimate_price(theta_0, theta_1, km)
-    print(f"Estimated price for {km} kilometers: {price:.2f}")
-    if price <= 0:
-        print("\033[91mEstimated price is less than or equal to 0.\033[00m")
+    
+    if price <= 0 and (theta_0 != 0 or theta_1 != 0):
+        print(f"Estimated price for {km} kilometers: \033[91m{price:.2f}\033[00m")
+    else:
+        print(f"Estimated price for {km} kilometers: {price:.2f}")
 
 
 if __name__ == "__main__":
