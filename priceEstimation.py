@@ -2,6 +2,7 @@ import sys
 import json
 import math
 
+
 def get_thetas():
     """
     Reads the thetas from a JSON file and returns them as a dictionary.
@@ -40,7 +41,9 @@ def main():
         sys.exit(1)
 
     price = estimate_price(theta_0, theta_1, km)
-    print(f"Estimated price for {km} kilometers: ${price:.2f}")
+    print(f"Estimated price for {km} kilometers: {price:.2f}")
+    if price <= 0:
+        print("\033[91mEstimated price is less than or equal to 0.\033[00m")
 
 
 if __name__ == "__main__":
