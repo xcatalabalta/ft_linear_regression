@@ -6,6 +6,12 @@ from VisualizeRegression import draw_regression
 
 def main():
     km, price = read_csv("data.csv")
+    try:
+        km_norm, price_norm = read_csv("normalized_data.csv")
+    except OSError:
+        print("Error: normalized_data.csv file not available. "
+              "Please run the training script first.")
+        return
     km_norm, price_norm = read_csv("normalized_data.csv")
 
     t = get_thetas("thetas.json")
