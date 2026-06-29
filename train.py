@@ -21,13 +21,13 @@ def get_points_from_csv(file_path):
     return points[:, 0], points[:, 1]  # km, price
 
 
-def set_thetas(theta_0, theta_1):
+def set_thetas(theta_0, theta_1, file_path):
     """
     Saves the thetas to a JSON file.
     """
     thetas = {"theta_0": theta_0, "theta_1": theta_1}
     try:
-        with open('thetas.json', 'w') as file:
+        with open(file_path, 'w') as file:
             json.dump(thetas, file, indent=2)
     except OSError:
         print("Error: Could not write to thetas.json file.")
@@ -59,12 +59,26 @@ def gradient_descent(km, price, theta_0, theta_1, learning_rate, iterations):
     return thetas
 
 
+def save_normalized_data(km_norm, price_norm):
+    """
+    Saves the normalized data to a csv file.
+    """
+    try:
+        np.savetxt("normalized_data.csv",
+                   np.column_stack((km_norm, price_norm)),
+                   delimiter=",", header="km_norm,price_norm", comments="")
+    except OSError:
+        print("Error: Could not write to normalized_data.csv file.")
+        sys.exit(1)
+
+
 def normalize_data(km, price, km_mean, km_std, price_mean, price_std):
     """
     Normalizes the km and price data.
     """
     km_norm = (km - km_mean) / km_std
     price_norm = (price - price_mean) / price_std
+    save_normalized_data(km_norm, price_norm)
 
     return km_norm, price_norm
 
@@ -82,7 +96,7 @@ def denorm_thetas(th_0, th_1, km_mean, km_std, price_mean, price_std):
 def print_sorted_points(points):
     """
     Prints the km and price points sorted ascending by km.
-    Kept for debugging purposes.
+    Kept for debugging and learning purposes.
     """
     km = points[0]
     price = points[1]
@@ -103,7 +117,7 @@ def print_norm_vs_denorm(km_norm, price_norm, km, price):
               f" | Denormalized: ({km[i]}, {price[i]})")
 
 
-if __name__ == "__main__":
+def main():
     # thetas = np.random.randn(2, 1)  # random initialization of thetas
     thetas = np.zeros((2, 1))  # zero initialization of thetas
     rate = 0.01
@@ -119,7 +133,12 @@ if __name__ == "__main__":
     # print_norm_vs_denorm(km_norm, price_norm, lista[0], lista[1])
     thetas = gradient_descent(km_norm, price_norm,
                               thetas[0][0], thetas[1][0], rate, itera)
+    set_thetas(thetas["theta_0"], thetas["theta_1"], 'thetas_norm.json')
     th_0_denorm, th_1_denorm = denorm_thetas(
         thetas["theta_0"], thetas["theta_1"],
         km_mean, km_std, price_mean, price_std)
-    set_thetas(th_0_denorm, th_1_denorm)
+    set_thetas(th_0_denorm, th_1_denorm, 'thetas.json')
+
+
+if __name__ == "__main__":
+    main()

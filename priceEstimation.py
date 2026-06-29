@@ -3,12 +3,12 @@ import json
 import math
 
 
-def get_thetas():
+def get_thetas(file_path):
     """
     Reads the thetas from a JSON file and returns them as a dictionary.
     """
     try:
-        with open('thetas.json', 'r') as file:
+        with open(file_path, 'r') as file:
             thetas = json.load(file)
         return thetas
     except (FileNotFoundError, json.JSONDecodeError):
@@ -23,7 +23,8 @@ def estimate_price(theta_0, theta_1, mileage):
 
 
 def main():
-    thetas = get_thetas()
+    file_path = "thetas.json"
+    thetas = get_thetas(file_path)
     theta_0 = thetas.get("theta_0", 0)
     theta_1 = thetas.get("theta_1", 0)
     neg_km = "km cannot be negative. Run the program again with a valid input."
@@ -41,9 +42,10 @@ def main():
         sys.exit(1)
 
     price = estimate_price(theta_0, theta_1, km)
-    
+
     if price <= 0 and (theta_0 != 0 or theta_1 != 0):
-        print(f"Estimated price for {km} kilometers: \033[91m{price:.2f}\033[00m")
+        print(f"Estimated price for {km} kilometers: "
+              f"\033[91m{price:.2f}\033[00m")
     else:
         print(f"Estimated price for {km} kilometers: {price:.2f}")
 

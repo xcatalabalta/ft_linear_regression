@@ -16,3 +16,6 @@ __pycache__/
 
 # thetas
 *.json
+
+# normalized data
+normalized_data.csv
