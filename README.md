@@ -20,10 +20,10 @@ python3 -m venv my_venv
 source my_venv/bin/activate
 
 # 3. Install the dependencies (once)
-pip install -r requirements.txt
+pip install --no-cache-dir -r requirements.txt
 
-# 0. All in a single line:
-python3 -m venv my_venv;source my_venv/bin/activate;pip install -r requirements.txt
+# Shortcut. All in a single line:
+python3 -m venv my_venv;source my_venv/bin/activate;pip install --no-cache-dir -r requirements.txt
 ```
 
 After the above, the prompt should now show `(my_venv)`, meaning the environment is active.
@@ -97,5 +97,5 @@ The Makefile contains the following rules that you can use for the evaluation:
 rm -rf my_venv
 python3 -m venv my_venv
 source my_venv/bin/activate
-pip install -r requirements.txt
+pip install --no-cache-dir -r requirements.txt
 ```
