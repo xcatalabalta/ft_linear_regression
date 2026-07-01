@@ -28,18 +28,23 @@ def main():
     theta_0 = thetas.get("theta_0", 0)
     theta_1 = thetas.get("theta_1", 0)
     neg_km = "km cannot be negative. Run the program again with a valid input."
+    sys.tracebacklimit = 0
 
     try:
-        km = float(input("Enter the number of kilometers: "))
+        raw = float(input("Enter the number of kilometers: "))
+        km = float(raw) if raw else 0.0
         if km < 0:
             print(neg_km)
-            sys.exit(1)
+            sys.exit(0)
         elif math.isnan(km) or math.isinf(km):
-            print("Come on! Run the program again with a valid input.")
-            sys.exit(1)
+            print("Invalid input. Run the program again with a valid input.")
+            sys.exit(0)
     except ValueError:
-        print("Invalid input. Please enter a numeric value for kilometers.")
-        sys.exit(1)
+        print("Invalid input. Run the program again with a valid input.")
+        sys.exit(0)
+    except (KeyboardInterrupt, EOFError):
+        print("\nProgram interrupted. Exiting.")
+        sys.exit(0)
 
     price = estimate_price(theta_0, theta_1, km)
 

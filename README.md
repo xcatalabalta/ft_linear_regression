@@ -59,8 +59,9 @@ make fclean
 The project has a Makefile to ease the installation and (probably) the evaluation.
 ### Evaluating using only the Makefile:
 The Makefile contains the following rules that you can use for the evaluation:
-  - all: Default target, it builds the environment.
+  - all: Default target, it builds the environment and displays the help message.
   - setup: Build the environment.
+  - help: Display the aavailable rule
   - data: Show the data visualization
   - predict: Run the price estimation as specified in the subject.
   - train: Train the model (produces thetas.json, thetas_norm.json, normalized_data.csv).

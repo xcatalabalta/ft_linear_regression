@@ -6,9 +6,10 @@ VENV   := my_venv
 PY     := $(VENV)/bin/python
 PIP    := $(VENV)/bin/pip
 FLAKE8 := $(VENV)/bin/flake8
+OUTPUTS := thetas.json, thetas_norm.json, normalized_data.csv
 
 # Default target: build the environment.
-all: setup
+all: setup help
 
 # Build the venv and install dependencies (idempotent via the sentinel).
 setup: $(VENV)/.installed
@@ -43,11 +44,25 @@ precision: setup
 lint: setup
 	$(FLAKE8) .
 
+help:
+	@echo "Available targets:"
+	@echo "  all        - Build the virtual environment, display help, and install dependencies."
+	@echo "  setup      - Build the virtual environment and install dependencies."
+	@echo "  train      - Train the model (produces thetas.json, thetas_norm.json, normalized_data.csv)."
+	@echo "  predict    - Predict a price (prompts for a mileage)."
+	@echo "  plot       - Show the 2x2 visualization (requires train to have run first)."
+	@echo "  data       - Show the data visualization."
+	@echo "  precision  - Report model precision (requires train to have run first)."
+	@echo "  lint       - Lint the project's Python files (my_venv excluded via .flake8)."
+	@echo "  clean      - Remove bytecode caches and generated data files."
+	@echo "  fclean     - Remove everything generated, including the virtual environment."
+	@echo "  re         - Rebuild from scratch."
+	@echo "  help       - Show this help message."
+
 # Remove bytecode caches and generated data files.
 clean:
 	rm -rf __pycache__ */__pycache__ *.pyc
-	rm -f *.json
-	rm -f normalized_data.csv
+	rm -f $(OUTPUTS)
 
 # Remove everything generated, including the virtual environment.
 fclean: clean
@@ -56,4 +71,4 @@ fclean: clean
 # Rebuild from scratch.
 re: fclean all
 
-.PHONY: all setup data train predict plot precision lint clean fclean re
+.PHONY: all setup data train predict plot precision lint clean fclean re help
