@@ -22,23 +22,23 @@ $(VENV)/.installed: requirements.txt
 
 # Train the model (produces thetas.json, thetas_norm.json, normalized_data.csv).
 train: setup
-	$(PY) train.py
+	@$(PY) train.py
 
 # Predict a price (prompts for a mileage).
 predict: setup
-	$(PY) priceEstimation.py
+	@$(PY) priceEstimation.py
 
 # Show the 2x2 visualization (requires train to have run first).
 plot: setup
-	$(PY) VisualizeResult.py
+	@$(PY) VisualizeResult.py
 
 # Show the data visualization
 data: setup
-	$(PY) VisualizeData.py
+	@$(PY) VisualizeData.py
 
 # Report model precision (requires train to have run first).
 precision: setup
-	$(PY) precision.py
+	@$(PY) precision.py
 
 # Lint the project's Python files (my_venv excluded via .flake8).
 lint: setup
@@ -58,6 +58,7 @@ help:
 	@echo "  fclean     - Remove everything generated, including the virtual environment."
 	@echo "  re         - Rebuild from scratch."
 	@echo "  help       - Show this help message."
+	@echo "Consult the README.md for more information on how to use this project."
 
 # Remove bytecode caches and generated data files.
 clean:
